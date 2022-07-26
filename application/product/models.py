@@ -23,7 +23,7 @@ class Category(models.Model):
 
     def __str__(self):
         if self.pre_category:
-            return f'{self.pre_category} / {self.slug}'
+            return f'{self.pre_category} --> {self.slug}'
         else:
             return f'{self.slug}'
 
