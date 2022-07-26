@@ -38,7 +38,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='products')
     quantity = models.PositiveIntegerField(default=1)
-    media = models.ImageField(upload_to='products')
+    # media = models.ImageField(upload_to='products')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
 
 
@@ -49,3 +49,8 @@ class Product(models.Model):
     class Meta:
         ordering = ['id']
 
+
+class Image(models.Model):
+    image = models.ImageField(upload_to='products')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,
+                                related_name='images')
