@@ -57,4 +57,3 @@ class Image(models.Model):
 class Review(models.Model):
     comment = models.CharField(max_length=200)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
-
