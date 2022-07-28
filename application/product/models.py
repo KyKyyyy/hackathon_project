@@ -41,8 +41,6 @@ class Product(models.Model):
     # media = models.ImageField(upload_to='products')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
 
-
-
     def __str__(self):
         return f'{self.category} --> {self.name}'
 
@@ -54,3 +52,9 @@ class Image(models.Model):
     image = models.ImageField(upload_to='products')
     product = models.ForeignKey(Product, on_delete=models.CASCADE,
                                 related_name='images')
+
+
+class Review(models.Model):
+    comment = models.CharField(max_length=200)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
+
