@@ -2,12 +2,13 @@ from django.contrib import admin
 
 # Register your models here.
 
-from application.product.models import Product, Category, Image, Review
+from application.product.models import Product, Category, Image, Comment, Like
 
 # admin.site.register(Product)
 admin.site.register(Category)
 admin.site.register(Image)
-admin.site.register(Review)
+admin.site.register(Like)
+admin.site.register(Comment)
 
 
 class ImageInAdmin(admin.TabularInline):
@@ -16,13 +17,8 @@ class ImageInAdmin(admin.TabularInline):
     max_num = 3
 
 
-class ReviewInAdmin(admin.TabularInline):
-    model = Review
-    fields = ['comment']
-
-
 class ProductAdmin(admin.ModelAdmin):
-    inlines = [ImageInAdmin, ReviewInAdmin]
+    inlines = [ImageInAdmin]
 
 
 admin.site.register(Product, ProductAdmin)
