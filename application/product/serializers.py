@@ -1,13 +1,9 @@
-
+from django.db.models import Avg
 from rest_framework import serializers
 
-from application.product.models import Category, Product, Image
+from . import models
+from .models import Product, Category, Image
 
-
-class ImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Image
-        fields = ['image']
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,8 +11,16 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = ['image']
+
+
 class ProductSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.email')
     images = ImageSerializer(many=True, read_only=True)
+
     class Meta:
         model = Product
         fields = '__all__'
@@ -24,10 +28,14 @@ class ProductSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         requests = self.context.get('request')
         images = requests.FILES
-        for i in range(10):
-            product = Product.objects.create(**validated_data)
+
+        product = Product.objects.create(**validated_data)
         print(images)
         for image in images.getlist('images'):
             Image.objects.create(product=product, image=image)
+        return  product
 
-        return product
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['likes'] = instance.likes.filter(like=True).count()
+        return representation
