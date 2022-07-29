@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'application.account',
     'application.product',
+    'application.cart',
     'django_filters',
     'drf_yasg',
     'rest_framework.authtoken',

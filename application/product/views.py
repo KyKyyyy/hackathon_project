@@ -20,7 +20,6 @@ class CategoryView(ModelViewSet):
 class ProductView(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [CustomIsAdmin]
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_fields = ['category']
     search_fields = ['name', 'description']
