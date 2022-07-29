@@ -4,11 +4,11 @@ from rest_framework.authtoken import models
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
-from rest_framework.permissions import IsAdminUser, AllowAny, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAdminUser, AllowAny, IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from .permissions import CustomIsAdmin
-from application.product.models import Category, Product, Like
-from application.product.serializers import CategorySerializer, ProductSerializer
+from application.product.models import Category, Product, Like, Comment
+from application.product.serializers import CategorySerializer, ProductSerializer, CommentSerializer
 
 
 class CategoryView(ModelViewSet):
@@ -16,6 +16,13 @@ class CategoryView(ModelViewSet):
     serializer_class = CategorySerializer
     permission_classes = [CustomIsAdmin]
 
+
+class CommentView(ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 class ProductView(ModelViewSet):
     queryset = Product.objects.all()

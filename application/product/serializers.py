@@ -2,7 +2,7 @@ from django.db.models import Avg
 from rest_framework import serializers
 
 from . import models
-from .models import Product, Category, Image
+from .models import Product, Category, Image, Comment
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -15,6 +15,14 @@ class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
         fields = ['image']
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = '__all__'
+
+    owner = serializers.ReadOnlyField(source='owner.email')
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -33,7 +41,7 @@ class ProductSerializer(serializers.ModelSerializer):
         print(images)
         for image in images.getlist('images'):
             Image.objects.create(product=product, image=image)
-        return  product
+        return product
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
