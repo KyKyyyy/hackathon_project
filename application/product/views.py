@@ -35,12 +35,13 @@ class ProductView(ModelViewSet):
         serializer.save(owner=self.request.user)
 
     @action(detail=True, methods=['POST'])
-    def like(self, request, *args, **kwargs):
-        review = self.get_object()
-        like_obj = Like.objects.get_or_create(review=review, user=request.user)
-        like_obj.like = not like_obj.like
-        like_obj.save()
-        status = 'like'
-        if not like_obj.like:
-            status = 'unlike'
+    def like(self, request, pk, *args, **kwargs):
+        like_object, _ = Like.objects.get_or_create(user_id=request.user.id, product_id=pk)
+        like_object.like = not like_object.like
+        like_object.save()
+        status = 'liked'
+
+        if like_object.like:
+            return Response({'status': status})
+        status = 'not liked'
         return Response({'status': status})
