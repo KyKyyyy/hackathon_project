@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_yasg',
     'rest_framework.authtoken',
-
+    'django_rest_passwordreset',
 
 ]
 
@@ -145,6 +145,7 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 AUTH_USER_MODEL = 'account.CustomUser'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True

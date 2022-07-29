@@ -43,7 +43,6 @@ class LoginSerializer(serializers.Serializer):
 
         email = atters.get('email')
         password = atters.get('password')
-        print(email, password)
         if email and password:
             user = authenticate(username=email, password=password)
 

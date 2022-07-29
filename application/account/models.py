@@ -1,6 +1,10 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.dispatch import receiver
+from django.urls import reverse
+from django_rest_passwordreset.signals import reset_password_token_created
+from django.core.mail import send_mail
 
 # Create your models here.
 
@@ -39,7 +43,7 @@ class UserManager(BaseUserManager):
 
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
-    password = models.CharField(max_length=100)
+    password = models.CharField(max_length=100) #TODO'добавить ограничитель для пароля'
     activation_code = models.CharField(max_length=50, blank=True)
     is_active = models.BooleanField(default=False)
     username = None
@@ -57,3 +61,4 @@ class CustomUser(AbstractUser):
         import uuid
         code = str(uuid.uuid4())
         self.activation_code = code
+

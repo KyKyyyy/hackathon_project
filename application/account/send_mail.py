@@ -6,7 +6,7 @@ def send_confirmation_email(code, email):
                 f' http://localhost:8000/api/v1/account/activate/{code}'
 
     send_mail(
-        'From furniture shop ',
+        'Furniture shop ',
         full_link,
         'damirbekovemir@gmail.com',
         [email]
